@@ -1,5 +1,5 @@
-import NavBar from "../../components/NavBar";
 import BaseFeeForm from "../../components/BaseFeeForm";
+import CalculateInsuranceForm from "../../components/CalculateInsuranceForm";
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 
@@ -12,10 +12,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <NavBar />
       <main className={styles.main}>
         <h2 className={styles.h2Title}>Our Modal of Crypto Insurance</h2>
         <BaseFeeForm />
+        <CalculateInsuranceForm />
       </main>
     </>
   );

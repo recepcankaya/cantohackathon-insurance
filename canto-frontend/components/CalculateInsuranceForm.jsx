@@ -1,4 +1,4 @@
-import styles from "@/styles/BaseFeeForm.module.css";
+import styles from "@/styles/CalculateInsuranceForm.module.css";
 import { useFormik } from "formik";
 import { object, number } from "yup";
 
@@ -17,15 +17,8 @@ export default function FormContainer() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.leftSide}>
-        <div className={styles.triangle}></div>
-        <h3 className={styles.firstTitle}>
-          To learn the first-time base fee for insurance, fill the form!
-          <br /> And do not forget the enter the amount!
-        </h3>
-      </div>
       <form onSubmit={formik.handleSubmit} className={styles.form}>
-        <h3>Learn the Base Fee</h3>
+        <h3>Learn the Insurance Cost</h3>
         <label htmlFor="amount">Amount</label>
         <input
           type="number"
@@ -35,6 +28,13 @@ export default function FormContainer() {
         />
         <button>Learn!</button>
       </form>
+      <div className={styles.rightSide}>
+        <div className={styles.triangle}></div>
+        <h3 className={styles.secondTitle}>
+          To learn the insurance cost for your tokens, fill the form!
+          <br /> And do not forget the enter the amount!
+        </h3>
+      </div>
     </div>
   );
 }

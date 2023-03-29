@@ -29,3 +29,37 @@
     rgba(93, 253, 203, 50%)
   );
 }
+
+.links {
+  display: flex;
+  gap: 50px;
+}
+
+.link {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.1rem;
+}
+
+.link::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--turqouise-color);
+  transition: width 0.3s ease-in-out;
+}
+
+.link:hover::before {
+  width: 100%;
+}
+
+/* .link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--turqouise-color);
+  text-decoration-thickness: 2px;
+  text-underline-position: under;
+  transition: text-underline-position 0.3s ease-in-out;
+} */
