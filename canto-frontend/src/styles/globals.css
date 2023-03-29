@@ -1,0 +1,29 @@
+:root {
+  --main-text: rgb(244, 250, 255);
+  --bg-color: rgb(25, 25, 25);
+  --purple-color: rgb(135, 137, 192);
+  --turqouise-color: rgb(124, 198, 254);
+  --green-color: rgb(93, 253, 203);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--main-text);
+  background: var(--bg-color);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
