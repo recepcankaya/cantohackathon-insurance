@@ -6,7 +6,7 @@ import { ContextAPI } from "../context/ContextProvider";
 import Modal from "./Modal";
 
 export default function FormContainer() {
-  const [baseFeeAmount, setBaseFeeAmount] = useState("");
+  const [baseFeeAmount, setBaseFeeAmount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
   const { insuranceContractInstance, getProviderOrSigner } =
