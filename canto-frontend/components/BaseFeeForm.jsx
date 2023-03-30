@@ -1,8 +1,37 @@
 import styles from "@/styles/BaseFeeForm.module.css";
 import { useFormik } from "formik";
+import { useContext, useState } from "react";
 import { object, number } from "yup";
+import { ContextAPI } from "../context/ContextProvider";
+import Modal from "./Modal";
 
 export default function FormContainer() {
+  const [baseFeeAmount, setBaseFeeAmount] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { insuranceContractInstance, getProviderOrSigner } =
+    useContext(ContextAPI);
+
+  const handleFormSubmit = async (amount) => {
+    try {
+      const provider = await getProviderOrSigner();
+      const contract = await insuranceContractInstance(provider);
+      const getInfo = await contract.baseFee(amount);
+      const turnToNumber = Number(getInfo) / 10000;
+      setBaseFeeAmount(turnToNumber);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   const formik = useFormik({
     initialValues: {
       amount: "",
@@ -10,9 +39,9 @@ export default function FormContainer() {
     validationSchema: object({
       amount: number().required("This field is required!").positive(),
     }),
-    // onSubmit: (values) => {
-    //   handleCreateProposal(values.description, values.requestedContribution);
-    // },
+    onSubmit: (values) => {
+      handleFormSubmit(values.amount);
+    },
   });
 
   return (
@@ -32,8 +61,12 @@ export default function FormContainer() {
           id="amount"
           name="amount"
           onChange={formik.handleChange}
+          value={formik.values.amount}
         />
-        <button>Learn!</button>
+        <Modal open={isOpen} onClose={closeModal}>
+          Your one-time base fee is {baseFeeAmount} token
+        </Modal>
+        <button onClick={openModal}>Learn!</button>
       </form>
     </div>
   );

@@ -1,6 +1,11 @@
 import { createContext, useRef, useState, useEffect } from "react";
 import { Contract, providers } from "ethers";
-// import { CONTRACT_ADDRESS, CONTRACT_ABI } from "../constants/index";
+import {
+  INSURANCE_CONTRACT_ADDRESS,
+  INSURANCE_CONTRACT_ABI,
+  MANAGEMENT_CONTRACT_ADDRESS,
+  MANAGEMENT_CONTRACT_ABI,
+} from "../constants/index";
 import Web3Modal from "web3modal";
 
 export const ContextAPI = createContext();
@@ -11,12 +16,6 @@ export function ContextProvider({ children }) {
   const web3ModalRef = useRef();
 
   const getProviderOrSigner = async (needSigner = false) => {
-    if (!web3ModalRef.current) {
-      throw new Error("Web3Modal object is not initialized");
-    }
-    if (web3ModalRef.current) {
-      console.log("Web3Modal is initialized");
-    }
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
 
@@ -39,9 +38,21 @@ export function ContextProvider({ children }) {
     setAddress(initialAddress);
   };
 
-  // const contractInstance = (providerOrSigner) => {
-  //   return new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, providerOrSigner);
-  // };
+  const insuranceContractInstance = (providerOrSigner) => {
+    return new Contract(
+      INSURANCE_CONTRACT_ADDRESS,
+      INSURANCE_CONTRACT_ABI,
+      providerOrSigner
+    );
+  };
+
+  const managementContractInstance = (providerOrSigner) => {
+    return new Contract(
+      MANAGEMENT_CONTRACT_ADDRESS,
+      MANAGEMENT_CONTRACT_ABI,
+      providerOrSigner
+    );
+  };
 
   const connectWallet = async () => {
     try {
@@ -70,7 +81,8 @@ export function ContextProvider({ children }) {
         walletConnected,
         address,
         connectWallet,
-        // contractInstance,
+        insuranceContractInstance,
+        managementContractInstance,
         getProviderOrSigner,
       }}>
       {children}

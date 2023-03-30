@@ -12,10 +12,10 @@ export default function NavBar() {
         <h1 className={styles.title}>Insurance</h1>
       </Link>
       <div className={styles.links}>
-        <Link href="" className={styles.link}>
+        <Link href="/insurance" className={styles.link}>
           Get The Insurance
         </Link>
-        <Link href="" className={styles.link}>
+        <Link href="/baseFee" className={styles.link}>
           Pay The Base Fee
         </Link>
       </div>
