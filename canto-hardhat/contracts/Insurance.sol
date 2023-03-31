@@ -19,8 +19,9 @@ contract Insurance {
     mapping(address => Client) public clients;
     address[] public clientArray;
 
-    /// @notice Emitted when client pays the fee
+    /// @notice Emitted when the client pays the fee
     /// @param client The person who is willing to get insurance
+    /// @param amount The cost of one-time-fee
     event FeePaid(address indexed client, uint256 indexed amount);
 
     /// @notice Emitted when client pays the price
@@ -28,7 +29,7 @@ contract Insurance {
     /// @param amount The amount of token that will be insured
     event InsurancePaid(address indexed client, uint256 indexed amount);
 
-    /// @notice Emitted when client' s insurance ends
+    /// @notice Emitted when the client's insurance ends
     /// @param client The person whose insurance has ended
     event InsuranceEnded(address indexed client);
 
@@ -55,46 +56,47 @@ contract Insurance {
     /// @param amount The amount of token that will be insured
     /// @return fee The base fee will be paid
     function baseFee(uint256 amount) public view amountCheck(amount) returns (uint256 fee) {
-        fee = (amount * 1) / 100;
+        uint256 amountWithDecimals = amount * 10**18;
+        fee = (amountWithDecimals * 1) / 100;
         return fee;
     }
 
     /// @notice Client pays its base fee just one time
     /// @dev After client pays its fee, another base fee is not taken from this client
-    /// @param amount The number of token that will be ensured   
-    function getBaseFee(uint256 amount) public payable amountCheck(amount)
-    zeroAddressCheck {
+    function getBaseFee(uint256 amount) public payable zeroAddressCheck {
         require(feer[msg.sender] == false, "You paid your base fee.");
         uint256 fee = baseFee(amount);
-        require(msg.value == fee, "You must pay whatever the fee is");
+        require(fee == msg.value, "Wrong fee");
         feer[msg.sender] = true;
         emit FeePaid(msg.sender, amount);
     }
 
-    /// @notice Calculates the amount of token that will be taken from client regularly
+    /// @notice Calculates the amount of token that will be taken from client
     /// @param amount The amount of token that will be insured
     /// @return insurance The insurance that will be taken from the client regularly
     function calculateInsurance(uint256 amount) public view amountCheck(amount) returns 
     (uint256 insurance) {
-        insurance = (amount * 5) / 100;
+        uint256 amountWithDecimals = amount * 10**18;
+        insurance = (amountWithDecimals * 5) / 100;
         return insurance;
     }
 
     /// @notice Take the money from the client and start the time
-    /// @param _amount The number of token that will be ensured
-    function getInsurance(uint256 _amount) public payable amountCheck(_amount) zeroAddressCheck {
+    /// @dev Every time the client wants to get insurance, a new struct is created and push to array the address
+    function getInsurance(uint256 amount) public payable zeroAddressCheck {
         require(feer[msg.sender] == true, "You have to pay fee first");
-        uint256 insurance = calculateInsurance(_amount);
-        require(insurance == msg.value, "You have to pay whatever the insurance is");
-        Client memory newClient = Client(msg.sender, _amount, 0, true);
+        uint256 ins = calculateInsurance(amount);
+        require(msg.value == ins, "Wrong insurance!");
+        Client memory newClient = Client(msg.sender, amount, 0, true);
         clients[msg.sender] = newClient;
         newClient.endTime = block.timestamp + 30 seconds;
         clientArray.push(msg.sender);
         numberOfClients++;
-        emit InsurancePaid(msg.sender, _amount);
+        emit InsurancePaid(msg.sender, amount);
     }
 
     /// @notice End the insurance for the client
+    /// @dev This loop checks every time whether a client's insurance has ended
     function endInsurance() public onlyOwner {
         uint256 i;
         while(i < numberOfClients) {
@@ -108,6 +110,8 @@ contract Insurance {
         }
     }
 
+    /// @notice Take the spesific client's info
+    /// @dev This function helps to implement the logic of management contract
     function getClient(address client) external view returns (Client memory) {
         return clients[client];
     }
@@ -121,6 +125,6 @@ contract Insurance {
     function withdrawTokensToContract(address managementContract) public payable onlyOwner {
         require(managementContract != address(0), "Address is zero");
         (bool success, ) = managementContract.call{value: address(this).balance}("");
-        require(success);
+        require(success, "Call failed");
     }
 }
