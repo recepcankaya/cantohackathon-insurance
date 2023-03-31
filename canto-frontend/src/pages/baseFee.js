@@ -7,7 +7,8 @@ import { BigNumber, utils } from "ethers";
 
 export default function BaseFee() {
   const [contractBalance, setContractBalance] = useState("");
-  const [insurance, setInsurance] = useState("");
+  const [fees, setFees] = useState("");
+
   const {
     insuranceContractInstance,
     managementContractInstance,
@@ -19,7 +20,8 @@ export default function BaseFee() {
       const provider = await getProviderOrSigner();
       const contract = await managementContractInstance(provider);
       const balance = await contract.getBalance();
-      setContractBalance(balance.toString());
+      const turnNumber = Number(balance) / 1e18;
+      setContractBalance(turnNumber);
     } catch (error) {
       console.error(error);
     }
@@ -30,12 +32,12 @@ export default function BaseFee() {
       const signer = await getProviderOrSigner(true);
       const contract = await insuranceContractInstance(signer);
       const fee = await contract.baseFee(amount);
-      const division = fee.div(10000);
-      console.log(division.toString());
-      const getPayment = await contract.getBaseFee(amount, {
-        value: utils.parseEther(division.toString()),
+      const ins = Number(fee) / 1e18;
+      const cost = ins.toString();
+      const payment = await contract.getBaseFee(amount, {
+        value: utils.parseEther(cost),
       });
-      // await getPayment.wait();
+      setFees(cost);
     } catch (error) {
       console.error(error);
     }
@@ -60,7 +62,7 @@ export default function BaseFee() {
   return (
     <>
       <div className={styles.contractBalance}>
-        Contract Balance: {contractBalance}
+        Contract Balance: {contractBalance} Canto Token
       </div>
       <form onSubmit={formik.handleSubmit} className={styles.form}>
         <h3>Pay The Base Fee</h3>

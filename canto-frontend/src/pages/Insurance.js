@@ -1,8 +1,35 @@
 import { useFormik } from "formik";
 import { object, number } from "yup";
+import { BigNumber, utils } from "ethers";
 import styles from "@/styles/Insurance.module.css";
+import { useState, useContext } from "react";
+import { ContextAPI } from "../../context/ContextProvider";
 
 export default function Insurance() {
+  const [insurance, setInsurance] = useState("");
+
+  const {
+    insuranceContractInstance,
+    managementContractInstance,
+    getProviderOrSigner,
+  } = useContext(ContextAPI);
+
+  const takeInsurance = async (amount) => {
+    try {
+      const signer = await getProviderOrSigner(true);
+      const contract = await insuranceContractInstance(signer);
+      const fee = await contract.calculateInsurance(amount);
+      const ins = Number(fee) / 1e18;
+      const cost = ins.toString();
+      const payment = await contract.getInsurance(amount, {
+        value: utils.parseEther(cost),
+      });
+      setInsurance(cost);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       amount: "",
@@ -10,9 +37,9 @@ export default function Insurance() {
     validationSchema: object({
       amount: number().required("This field is required!").positive(),
     }),
-    // onSubmit: (values) => {
-    //   handleCreateProposal(values.description, values.requestedContribution);
-    // },
+    onSubmit: (values) => {
+      takeInsurance(values.amount);
+    },
   });
 
   return (
