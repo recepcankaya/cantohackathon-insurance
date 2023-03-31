@@ -1,5 +1,5 @@
 import { utils } from "ethers";
-import { useContext } from "react";
+import { useContext, useState, CSSProperties } from "react";
 import { ContextAPI } from "../../context/ContextProvider";
 import Balance from "../../components/Balance";
 import PaymentForm from "../../components/PaymentForm";
@@ -17,6 +17,9 @@ export default function Insurance() {
       const payment = await contract.getInsurance(amount, {
         value: utils.parseEther(ins),
       });
+      setLoading(true);
+      await payment.wait();
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }

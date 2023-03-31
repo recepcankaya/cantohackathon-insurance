@@ -17,6 +17,9 @@ export default function BaseFee() {
       const payment = await contract.getBaseFee(amount, {
         value: utils.parseEther(ins),
       });
+      setLoading(true);
+      await payment.wait();
+      setLoading(false);
     } catch (error) {
       alert("You paid the base fee");
     }
