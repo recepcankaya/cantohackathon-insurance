@@ -1,14 +1,10 @@
 import styles from "@/styles/BaseFeeForm.module.css";
-import { BigNumber } from "ethers";
-import { useFormik } from "formik";
 import { useContext, useState } from "react";
-import { object, number } from "yup";
 import { ContextAPI } from "../context/ContextProvider";
-import Modal from "./Modal";
+import Form from "./Form";
 
 export default function FormContainer() {
   const [baseFeeAmount, setBaseFeeAmount] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
 
   const { insuranceContractInstance, getProviderOrSigner } =
     useContext(ContextAPI);
@@ -24,25 +20,7 @@ export default function FormContainer() {
     }
   };
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  const formik = useFormik({
-    initialValues: {
-      amount: "",
-    },
-    validationSchema: object({
-      amount: number().required("This field is required!").positive(),
-    }),
-    onSubmit: (values) => {
-      handleFormSubmit(values.amount);
-    },
-  });
+  const title = () => "Learn the Base Fee";
 
   return (
     <div className={styles.container}>
@@ -53,21 +31,11 @@ export default function FormContainer() {
           <br /> And do not forget the enter the amount!
         </h3>
       </div>
-      <form onSubmit={formik.handleSubmit} className={styles.form}>
-        <h3>Learn the Base Fee</h3>
-        <label htmlFor="amount">Amount</label>
-        <input
-          type="number"
-          id="amount"
-          name="amount"
-          onChange={formik.handleChange}
-          value={formik.values.amount}
-        />
-        <Modal open={isOpen} onClose={closeModal}>
-          Your one-time base fee is {baseFeeAmount} token
-        </Modal>
-        <button onClick={openModal}>Learn!</button>
-      </form>
+      <Form
+        title={title}
+        cost={baseFeeAmount}
+        handleFormSubmit={handleFormSubmit}
+      />
     </div>
   );
 }
