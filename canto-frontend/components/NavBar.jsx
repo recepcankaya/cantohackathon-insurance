@@ -62,6 +62,13 @@ export default function NavBar() {
           }>
           Pay The Base Fee
         </Link>
+        <Link
+          href="/claimToken"
+          className={
+            router.pathname === "/claimToken" ? styles.active : styles.link
+          }>
+          Take Your Insurance
+        </Link>
       </div>
       <button onClick={sendTokensToContract} className={styles.send}>
         Send To Contract

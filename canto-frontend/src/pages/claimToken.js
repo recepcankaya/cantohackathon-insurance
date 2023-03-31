@@ -4,30 +4,34 @@ import { utils } from "ethers";
 import Balance from "../../components/Balance";
 import PaymentForm from "../../components/PaymentForm";
 
-export default function BaseFee() {
-  const { insuranceContractInstance, getProviderOrSigner } =
+export default function ClaimToken() {
+  const { managementContractInstance, getProviderOrSigner } =
     useContext(ContextAPI);
 
-  const takeBaseFee = async (amount) => {
+  const payTheInsurance = async (amount) => {
     try {
       const signer = await getProviderOrSigner(true);
-      const contract = await insuranceContractInstance(signer);
+      const contract = await managementContractInstance(signer);
       const fee = await contract.baseFee(amount);
       const ins = (Number(fee) / 1e18).toString();
       const payment = await contract.getBaseFee(amount, {
         value: utils.parseEther(ins),
       });
     } catch (error) {
-      alert("You paid the base fee");
+      alert("Claimed Wrong");
     }
   };
 
-  const title = () => "Pay The Base Fee";
+  const title = () => "Claim Your Tokens";
 
   return (
     <>
       <Balance />
-      <PaymentForm handlePaymentForm={takeBaseFee} title={title} text="Pay" />
+      <PaymentForm
+        handlePaymentForm={payTheInsurance}
+        title={title}
+        text="Get"
+      />
     </>
   );
 }

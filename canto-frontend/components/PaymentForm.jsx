@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { object, number } from "yup";
 import styles from "@/styles/PaymentForm.module.css";
 
-export default function PaymentForm({ handlePaymentForm, title }) {
+export default function PaymentForm({ handlePaymentForm, title, text }) {
   const formik = useFormik({
     initialValues: {
       amount: "",
@@ -33,7 +33,7 @@ export default function PaymentForm({ handlePaymentForm, title }) {
           <span className={styles.errorText}>{formik.errors.amount}</span>
         </div>
       ) : null}
-      <button type="submit">Pay</button>
+      <button type="submit">{text}</button>
     </form>
   );
 }

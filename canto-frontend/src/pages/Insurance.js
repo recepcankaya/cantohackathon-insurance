@@ -27,7 +27,7 @@ export default function Insurance() {
   return (
     <>
       <Balance />
-      <PaymentForm handlePaymentForm={takeInsurance} title={title} />
+      <PaymentForm handlePaymentForm={takeInsurance} title={title} text="Pay" />
     </>
   );
 }
