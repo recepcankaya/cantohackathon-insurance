@@ -1,10 +1,8 @@
-import { useFormik } from "formik";
-import { object, number } from "yup";
 import { utils } from "ethers";
-import styles from "@/styles/Insurance.module.css";
 import { useContext } from "react";
 import { ContextAPI } from "../../context/ContextProvider";
 import Balance from "../../components/Balance";
+import PaymentForm from "../../components/PaymentForm";
 
 export default function Insurance() {
   const { insuranceContractInstance, getProviderOrSigner } =
@@ -24,37 +22,12 @@ export default function Insurance() {
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      amount: "",
-    },
-    validationSchema: object({
-      amount: number().required("This field is required!").positive(),
-    }),
-    onSubmit: (values) => {
-      takeInsurance(values.amount);
-    },
-  });
+  const title = () => "Pay The Insurance Cost";
 
   return (
     <>
       <Balance />
-      <form onSubmit={formik.handleSubmit} className={styles.form}>
-        <h3>Pay The Insurance Cost</h3>
-        <label htmlFor="amount">Amount</label>
-        <input
-          type="number"
-          id="amount"
-          name="amount"
-          onChange={formik.handleChange}
-        />
-        {formik.touched.amount && formik.errors.amount ? (
-          <div className={styles.error}>
-            <span className={styles.errorText}>{formik.errors.amount}</span>
-          </div>
-        ) : null}
-        <button type="submit">Pay</button>
-      </form>
+      <PaymentForm handlePaymentForm={takeInsurance} title={title} />
     </>
   );
 }

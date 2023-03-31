@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { startTransition, useContext } from "react";
+import { useContext } from "react";
 import { ContextAPI } from "../context/ContextProvider";
 import {
   MANAGEMENT_CONTRACT_ADDRESS,
   INSURANCE_CONTRACT_ADDRESS,
 } from "../constants";
 import styles from "@/styles/NavBar.module.css";
-import { providers, utils } from "ethers";
+import { utils } from "ethers";
 
 export default function NavBar() {
   const {
@@ -26,16 +26,20 @@ export default function NavBar() {
   };
 
   const sendTokensToContract = async () => {
-    const signer = await getProviderOrSigner(true);
-    const contract = await insuranceContractInstance(signer);
-    const balance = await insuranceBalance();
-    const str = (Number(balance) / 1e18).toString();
-    const send = await contract.withdrawTokensToContract(
-      MANAGEMENT_CONTRACT_ADDRESS,
-      {
-        value: utils.parseEther(str),
-      }
-    );
+    try {
+      const signer = await getProviderOrSigner(true);
+      const contract = await insuranceContractInstance(signer);
+      const balance = await insuranceBalance();
+      const str = (Number(balance) / 1e18).toString();
+      const send = await contract.withdrawTokensToContract(
+        MANAGEMENT_CONTRACT_ADDRESS,
+        {
+          value: utils.parseEther(str),
+        }
+      );
+    } catch (e) {
+      alert("You don't have right to transfer the contract's tokens");
+    }
   };
 
   return (
