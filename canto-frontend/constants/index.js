@@ -1,7 +1,7 @@
 export const INSURANCE_CONTRACT_ADDRESS =
-  "0x9e048088607a7DA88249b2E3db43D371B3f393fd";
+  "0x3aF557771343eDb674225025Bfe2C4aC60f160d6";
 export const MANAGEMENT_CONTRACT_ADDRESS =
-  "0xEBd9DC11422a36D00B219f9e174BA3C0AcaA400d";
+  "0x95E1128D2f7B80fDE128a390a37e375e380F1E8D";
 export const INSURANCE_CONTRACT_ABI = [
   {
     inputs: [],
@@ -215,7 +215,7 @@ export const INSURANCE_CONTRACT_ABI = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_amount",
+        name: "amount",
         type: "uint256",
       },
     ],

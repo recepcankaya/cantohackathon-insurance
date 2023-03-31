@@ -16,8 +16,7 @@ export default function FormContainer() {
       const provider = await getProviderOrSigner();
       const contract = await insuranceContractInstance(provider);
       const getInsurancePredict = await contract.calculateInsurance(amount);
-      const turnToNumber = Number(getInsurancePredict) / 10000;
-      setInsCalculation(turnToNumber);
+      setInsCalculation(Number(getInsurancePredict) / 1e18);
     } catch (error) {
       console.error(error);
     }

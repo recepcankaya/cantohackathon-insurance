@@ -1,4 +1,5 @@
 import styles from "@/styles/BaseFeeForm.module.css";
+import { BigNumber } from "ethers";
 import { useFormik } from "formik";
 import { useContext, useState } from "react";
 import { object, number } from "yup";
@@ -17,8 +18,7 @@ export default function FormContainer() {
       const provider = await getProviderOrSigner();
       const contract = await insuranceContractInstance(provider);
       const getInfo = await contract.baseFee(amount);
-      const turnToNumber = Number(getInfo) / 10000;
-      setBaseFeeAmount(turnToNumber);
+      setBaseFeeAmount(Number(getInfo) / 1e18);
     } catch (e) {
       console.error(e);
     }

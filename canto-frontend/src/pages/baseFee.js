@@ -3,11 +3,16 @@ import { object, number } from "yup";
 import { ContextAPI } from "../../context/ContextProvider";
 import styles from "@/styles/BaseFee.module.css";
 import { useContext, useEffect, useState } from "react";
+import { BigNumber, utils } from "ethers";
 
 export default function BaseFee() {
   const [contractBalance, setContractBalance] = useState("");
-  const { managementContractInstance, getProviderOrSigner } =
-    useContext(ContextAPI);
+  const [insurance, setInsurance] = useState("");
+  const {
+    insuranceContractInstance,
+    managementContractInstance,
+    getProviderOrSigner,
+  } = useContext(ContextAPI);
 
   const getContractBalance = async () => {
     try {
@@ -20,6 +25,22 @@ export default function BaseFee() {
     }
   };
 
+  const takeBaseFee = async (amount) => {
+    try {
+      const signer = await getProviderOrSigner(true);
+      const contract = await insuranceContractInstance(signer);
+      const fee = await contract.baseFee(amount);
+      const division = fee.div(10000);
+      console.log(division.toString());
+      const getPayment = await contract.getBaseFee(amount, {
+        value: utils.parseEther(division.toString()),
+      });
+      // await getPayment.wait();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       amount: "",
@@ -27,9 +48,9 @@ export default function BaseFee() {
     validationSchema: object({
       amount: number().required("This field is required!").positive(),
     }),
-    // onSubmit: (values) => {
-    //   handleCreateProposal(values.description, values.requestedContribution);
-    // },
+    onSubmit: (values) => {
+      takeBaseFee(values.amount);
+    },
   });
 
   useEffect(() => {
@@ -49,8 +70,9 @@ export default function BaseFee() {
           id="amount"
           name="amount"
           onChange={formik.handleChange}
+          value={formik.values.amount}
         />
-        <button>Pay</button>
+        <button type="submit">Pay</button>
       </form>
     </>
   );
