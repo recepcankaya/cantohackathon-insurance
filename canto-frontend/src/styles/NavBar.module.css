@@ -30,6 +30,25 @@
   );
 }
 
+.send {
+  margin-right: -50px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid var(--purple-color);
+  font-size: 13px;
+  color: rgb(244, 250, 255);
+  background-color: transparent;
+}
+
+.send:hover {
+  cursor: pointer;
+  background: linear-gradient(
+    to right bottom,
+    rgba(135, 137, 192, 50%),
+    rgba(124, 198, 254, 50%)
+  );
+}
+
 .links {
   display: flex;
   gap: 50px;
