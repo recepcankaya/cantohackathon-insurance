@@ -3,11 +3,10 @@ import { object, number } from "yup";
 import { ContextAPI } from "../../context/ContextProvider";
 import styles from "@/styles/BaseFee.module.css";
 import { useContext, useEffect, useState } from "react";
-import { BigNumber, utils } from "ethers";
+import { utils } from "ethers";
 
 export default function BaseFee() {
   const [contractBalance, setContractBalance] = useState("");
-  const [fees, setFees] = useState("");
 
   const {
     insuranceContractInstance,
@@ -37,7 +36,6 @@ export default function BaseFee() {
       const payment = await contract.getBaseFee(amount, {
         value: utils.parseEther(cost),
       });
-      setFees(cost);
     } catch (error) {
       console.error(error);
     }

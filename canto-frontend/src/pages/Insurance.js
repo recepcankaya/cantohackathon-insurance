@@ -1,18 +1,13 @@
 import { useFormik } from "formik";
 import { object, number } from "yup";
-import { BigNumber, utils } from "ethers";
+import { utils } from "ethers";
 import styles from "@/styles/Insurance.module.css";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { ContextAPI } from "../../context/ContextProvider";
 
 export default function Insurance() {
-  const [insurance, setInsurance] = useState("");
-
-  const {
-    insuranceContractInstance,
-    managementContractInstance,
-    getProviderOrSigner,
-  } = useContext(ContextAPI);
+  const { insuranceContractInstance, getProviderOrSigner } =
+    useContext(ContextAPI);
 
   const takeInsurance = async (amount) => {
     try {
@@ -24,7 +19,6 @@ export default function Insurance() {
       const payment = await contract.getInsurance(amount, {
         value: utils.parseEther(cost),
       });
-      setInsurance(cost);
     } catch (error) {
       console.error(error);
     }

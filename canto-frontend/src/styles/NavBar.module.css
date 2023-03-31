@@ -56,3 +56,9 @@
   width: 100%;
 }
 
+.active {
+  text-decoration: underline;
+  text-decoration-color: var(--turqouise-color);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
