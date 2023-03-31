@@ -13,7 +13,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h2 className={styles.h2Title}>Our Modal of Crypto Insurance</h2>
+        <h2 className={styles.h2Title}>The New Modal of Crypto Insurance</h2>
         <BaseFeeForm />
         <CalculateInsuranceForm />
       </main>

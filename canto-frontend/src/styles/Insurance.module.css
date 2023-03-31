@@ -18,7 +18,7 @@
 
 .form input {
   height: 30px;
-  margin-top: -25px;
+  margin-top: -40px;
   font-size: 1.05em;
   padding: 15px 0 15px 10px;
   background-color: transparent;
@@ -52,4 +52,17 @@
     rgba(135, 137, 192, 50%),
     rgba(93, 253, 203, 50%)
   );
+}
+
+.error {
+  margin-top: -35px;
+  width: 50%;
+  padding: 2px;
+  background-color: rgb(220 38 38);
+  border-radius: 8px;
+  color: var(--main-text);
+}
+
+.errorText {
+  padding-left: 4px;
 }

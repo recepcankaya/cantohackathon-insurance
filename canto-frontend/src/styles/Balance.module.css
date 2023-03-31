@@ -1,0 +1,8 @@
+.contractBalance {
+  position: absolute;
+  top: 100px;
+  right: 100px;
+  padding: 10px;
+  border: 1px solid var(--purple-color);
+  border-radius: 5px;
+}

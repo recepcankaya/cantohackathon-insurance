@@ -4,6 +4,7 @@ import { utils } from "ethers";
 import styles from "@/styles/Insurance.module.css";
 import { useContext } from "react";
 import { ContextAPI } from "../../context/ContextProvider";
+import Balance from "../../components/Balance";
 
 export default function Insurance() {
   const { insuranceContractInstance, getProviderOrSigner } =
@@ -14,10 +15,9 @@ export default function Insurance() {
       const signer = await getProviderOrSigner(true);
       const contract = await insuranceContractInstance(signer);
       const fee = await contract.calculateInsurance(amount);
-      const ins = Number(fee) / 1e18;
-      const cost = ins.toString();
+      const ins = (Number(fee) / 1e18).toString();
       const payment = await contract.getInsurance(amount, {
-        value: utils.parseEther(cost),
+        value: utils.parseEther(ins),
       });
     } catch (error) {
       console.error(error);
@@ -37,16 +37,24 @@ export default function Insurance() {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className={styles.form}>
-      <h3>Pay The Insurance Cost</h3>
-      <label htmlFor="amount">Amount</label>
-      <input
-        type="number"
-        id="amount"
-        name="amount"
-        onChange={formik.handleChange}
-      />
-      <button>Pay</button>
-    </form>
+    <>
+      <Balance />
+      <form onSubmit={formik.handleSubmit} className={styles.form}>
+        <h3>Pay The Insurance Cost</h3>
+        <label htmlFor="amount">Amount</label>
+        <input
+          type="number"
+          id="amount"
+          name="amount"
+          onChange={formik.handleChange}
+        />
+        {formik.touched.amount && formik.errors.amount ? (
+          <div className={styles.error}>
+            <span className={styles.errorText}>{formik.errors.amount}</span>
+          </div>
+        ) : null}
+        <button type="submit">Pay</button>
+      </form>
+    </>
   );
 }
