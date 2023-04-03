@@ -21,14 +21,11 @@ export default function FormContainer() {
   };
 
   const title = () => "Learn The Insurance Cost";
+  const text = () => `Your insurance cost is ${insCalculation} token`;
 
   return (
     <div className={styles.container}>
-      <Form
-        title={title}
-        handleFormSubmit={handleFormSubmit}
-        cost={insCalculation}
-      />
+      <Form title={title} handleFormSubmit={handleFormSubmit} text={text} />
       <div className={styles.rightSide}>
         <div className={styles.triangle}></div>
         <h3 className={styles.secondTitle}>

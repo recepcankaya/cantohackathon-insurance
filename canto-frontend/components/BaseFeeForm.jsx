@@ -21,6 +21,7 @@ export default function FormContainer() {
   };
 
   const title = () => "Learn the Base Fee";
+  const text = () => `Your one-time base fee is ${baseFeeAmount} token`;
 
   return (
     <div className={styles.container}>
@@ -31,11 +32,7 @@ export default function FormContainer() {
           <br /> And do not forget the enter the amount!
         </h3>
       </div>
-      <Form
-        title={title}
-        cost={baseFeeAmount}
-        handleFormSubmit={handleFormSubmit}
-      />
+      <Form title={title} text={text} handleFormSubmit={handleFormSubmit} />
     </div>
   );
 }

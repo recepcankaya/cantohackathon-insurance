@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { object, number } from "yup";
 import styles from "@/styles/Form.module.css";
 
-export default function Form({ title, cost, handleFormSubmit }) {
+export default function Form({ title, text, handleFormSubmit }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
@@ -39,7 +39,7 @@ export default function Form({ title, cost, handleFormSubmit }) {
         value={formik.values.amount}
       />
       <Modal open={isOpen} onClose={closeModal}>
-        Your one-time base fee is {cost} token
+        {text()}
       </Modal>
       <button onClick={openModal}>Learn!</button>
     </form>
