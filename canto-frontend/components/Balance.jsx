@@ -21,11 +21,13 @@ export default function Balance() {
 
   useEffect(() => {
     getContractBalance();
-  }, [contractBalance]);
+  });
 
   return (
     <div className={styles.contractBalance}>
-      Contract Balance: {contractBalance} Canto Token
+      {contractBalance === null
+        ? "Loading..."
+        : `Contract Balance: ${contractBalance} Canto Token`}
     </div>
   );
 }

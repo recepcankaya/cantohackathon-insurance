@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ContextAPI } from "../context/ContextProvider";
 import {
   MANAGEMENT_CONTRACT_ADDRESS,
@@ -74,8 +74,9 @@ export default function NavBar() {
         Send To Contract
       </button>
       <button className={styles.clientWallet} onClick={connectWallet}>
-        {walletConnected ? "Wallet Connected" : "Connect Wallet"}: {""}
-        {address.slice(0, 5)}...{address.slice(-4)}
+        {walletConnected
+          ? `Wallet Connected: ${address.slice(0, 5)}...${address.slice(-4)}`
+          : "Connect Wallet"}
       </button>
     </nav>
   );

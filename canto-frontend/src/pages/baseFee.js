@@ -1,11 +1,12 @@
 import { ContextAPI } from "../../context/ContextProvider";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { utils } from "ethers";
 import Balance from "../../components/Balance";
 import PaymentForm from "../../components/PaymentForm";
 import Loader from "../../components/Loader";
 
 export default function BaseFee() {
+  const [loading, setLoading] = useState(false);
   const { insuranceContractInstance, getProviderOrSigner } =
     useContext(ContextAPI);
 
