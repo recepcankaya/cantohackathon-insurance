@@ -1,7 +1,7 @@
 export const INSURANCE_CONTRACT_ADDRESS =
-  "0x3aF557771343eDb674225025Bfe2C4aC60f160d6";
+  "0x24ecE50Ec423874dcd124409d0b38eeAaAC96cc2";
 export const MANAGEMENT_CONTRACT_ADDRESS =
-  "0x95E1128D2f7B80fDE128a390a37e375e380F1E8D";
+  "0x04941B4e2738f4D4B2F5259963E6Daab638adE5d";
 export const INSURANCE_CONTRACT_ABI = [
   {
     inputs: [],
@@ -259,13 +259,7 @@ export const MANAGEMENT_CONTRACT_ABI = [
     type: "constructor",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-    ],
+    inputs: [],
     name: "claimToken",
     outputs: [],
     stateMutability: "payable",

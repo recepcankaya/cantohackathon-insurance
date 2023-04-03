@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { utils } from "ethers";
 import Balance from "../../components/Balance";
 import PaymentForm from "../../components/PaymentForm";
+import Loader from "../../components/Loader";
 
 export default function BaseFee() {
   const { insuranceContractInstance, getProviderOrSigner } =
@@ -17,10 +18,17 @@ export default function BaseFee() {
       const payment = await contract.getBaseFee(amount, {
         value: utils.parseEther(ins),
       });
+      setLoading(true);
+      await payment.wait();
+      setLoading(false);
     } catch (error) {
       alert("You paid the base fee");
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   const title = () => "Pay The Base Fee";
 

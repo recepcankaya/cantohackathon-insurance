@@ -1,10 +1,13 @@
-import { utils } from "ethers";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ContextAPI } from "../../context/ContextProvider";
 import Balance from "../../components/Balance";
 import PaymentForm from "../../components/PaymentForm";
+import Loader from "../../components/Loader";
+
+import { utils } from "ethers";
 
 export default function Insurance() {
+  const [loading, setLoading] = useState(false);
   const { insuranceContractInstance, getProviderOrSigner } =
     useContext(ContextAPI);
 
@@ -17,10 +20,17 @@ export default function Insurance() {
       const payment = await contract.getInsurance(amount, {
         value: utils.parseEther(ins),
       });
+      setLoading(true);
+      await payment.wait();
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   const title = () => "Pay The Insurance Cost";
 
