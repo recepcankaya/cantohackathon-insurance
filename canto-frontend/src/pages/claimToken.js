@@ -3,15 +3,10 @@ import { useContext, useState } from "react";
 import { utils } from "ethers";
 import Balance from "../../components/Balance";
 import styles from "@/styles/ClaimToken.module.css";
-<<<<<<< HEAD
 import Loader from "../../components/Loader";
 
 export default function ClaimToken() {
   const [loading, setLoading] = useState(false);
-=======
-
-export default function ClaimToken() {
->>>>>>> 27469956ca1ec1cd95726d126959b4ab475ce5fe
   const {
     managementContractInstance,
     insuranceContractInstance,
@@ -34,25 +29,18 @@ export default function ClaimToken() {
       const payment = await contract.claimToken({
         value: utils.parseEther(amount.toString()),
       });
-<<<<<<< HEAD
       setLoading(false);
       await payment.wait();
       setLoading(true);
-=======
-      await payment.wait();
->>>>>>> 27469956ca1ec1cd95726d126959b4ab475ce5fe
     } catch (error) {
       alert("Claimed Wrong");
     }
   };
 
-<<<<<<< HEAD
   if (loading) {
     return <Loader />;
   }
 
-=======
->>>>>>> 27469956ca1ec1cd95726d126959b4ab475ce5fe
   return (
     <>
       <Balance />

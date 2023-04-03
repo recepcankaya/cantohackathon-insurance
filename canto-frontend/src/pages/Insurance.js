@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 import { useContext, useState } from "react";
-=======
-import { utils } from "ethers";
-import { useContext, useState, CSSProperties } from "react";
->>>>>>> 27469956ca1ec1cd95726d126959b4ab475ce5fe
 import { ContextAPI } from "../../context/ContextProvider";
 import Balance from "../../components/Balance";
 import PaymentForm from "../../components/PaymentForm";
